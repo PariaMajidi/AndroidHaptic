@@ -22,6 +22,7 @@ package com.example.myapplication;
 
         //import android.support.v7.app.AppCompatActivity;
         import android.content.BroadcastReceiver;
+        import android.util.Log;
         import android.widget.Button;
         import android.content.Context;
         import android.content.Intent;
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
         public void onReceive(Context context, Intent intent) {
 
+            Log.i("TestMessage","Rec Message form Wear in phone : "+ System.currentTimeMillis()/1000);
+
 //Upon receiving each message from the wearable, display the following text//
 
             String message = "I just received a message from the wearable " + receivedMessageNumber++;
@@ -109,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void talkClick(View v) {
+
+        Log.i("TestMessage","Send Message form phone : "+ System.currentTimeMillis()/1000);
+
+
         String message = "Sending message.... ";
         textview.setText(message);
         int dot = 200;      // Length of a Morse Code "dot" in milliseconds

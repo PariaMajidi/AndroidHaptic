@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.os.VibrationEffect;
 import android.support.wearable.activity.WearableActivity;
+import android.util.Log;
 import android.widget.TextView;
 import android.content.BroadcastReceiver;
 import android.widget.Button;
@@ -44,6 +45,9 @@ public class MainActivity extends WearableActivity {
         talkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("TestMessage","Send Message form wear : "+ System.currentTimeMillis()/1000);
+
+
                 String onClickMessage = "I just sent the handheld a message " + sentMessageNumber++;
                 textView.setText(onClickMessage);
                 //Use the same path//
@@ -65,6 +69,8 @@ public class MainActivity extends WearableActivity {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            Log.i("TestMessage","Rec Message form phone : "+ System.currentTimeMillis()/1000);
 
 //Display the following when a new message is received//
 
