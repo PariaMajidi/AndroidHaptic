@@ -1,0 +1,3 @@
+include ':watch'
+include ':app'
+rootProject.name = "Dovomish"
