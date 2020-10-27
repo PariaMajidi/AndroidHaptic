@@ -1,27 +1,30 @@
 package com.example.myapplication;
 
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.os.VibrationEffect;
-import android.support.wearable.activity.WearableActivity;
-import android.util.Log;
-import android.widget.TextView;
 import android.content.BroadcastReceiver;
-import android.widget.Button;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.support.wearable.activity.WearableActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.Wearable;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -45,7 +48,7 @@ public class MainActivity extends WearableActivity {
         talkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("TestMessage","Send Message form wear : "+ System.currentTimeMillis()/1000);
+                Log.i("TestMessage","Send Message form wear : "+ System.currentTimeMillis());
 
 
                 String onClickMessage = "I just sent the handheld a message " + sentMessageNumber++;
@@ -70,7 +73,12 @@ public class MainActivity extends WearableActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Log.i("TestMessage","Rec Message form phone : "+ System.currentTimeMillis()/1000);
+//            Log.i("TestMessage","Rec Message from phone : "+ System.currentTimeMillis());
+            long Millis = System.currentTimeMillis();
+            DateFormat simple = new SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z");
+            Date result = new Date(Millis);
+            Log.i("TestMessageDate","Rec Message from phone Date: "+ simple.format(result));
+
 
 //Display the following when a new message is received//
 
@@ -78,35 +86,11 @@ public class MainActivity extends WearableActivity {
             textView.setText(onMessageReceived);
             int dot = 200;      // Length of a Morse Code "dot" in milliseconds
 
-            int dot1 = 300;     // Length of a Morse Code "dash" in milliseconds
-
-            int dot2= 400;
-
-            int dot3= 500;
-
-            int dot4= 600;
-
-            int dot5= 700;
-
-            int short_gap = 500;    // Length of Gap Between dots/dashes
-
-            int medium_gap = 500;   // Length of Gap Between Letters
-
-            int long_gap = 1000;    // Length of Gap Between Words
+            int short_gap = 0;    // Length of Gap Between dots/dashes
 
             long[] pattern = {
                     0,  // Start immediately
 
-                    dot,
-                    short_gap,
-                    dot,
-                    short_gap,
-                    dot,
-                    short_gap,
-                    dot,
-                    short_gap,
-                    dot,
-                    short_gap,
                     dot,
                     short_gap
             };

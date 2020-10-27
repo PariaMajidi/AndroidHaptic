@@ -22,33 +22,37 @@ package com.example.myapplication;
 
         //import android.support.v7.app.AppCompatActivity;
         import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
         import android.util.Log;
-        import android.widget.Button;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.IntentFilter;
-        //import android.support.v4.content.LocalBroadcastManager;
-        import android.os.Bundle;
-        import android.os.Build;
-        import android.os.Handler;
-        import android.os.Message;
         import android.view.View;
-        import android.widget.TextView;
-        import android.os.VibrationEffect;
-        import android.os.Vibrator;
-        import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
-        import androidx.annotation.RequiresApi;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-        import com.google.android.gms.wearable.Node;
-        import com.google.android.gms.tasks.Task;
-        import com.google.android.gms.tasks.Tasks;
-        import com.google.android.gms.wearable.Wearable;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.Wearable;
 
+        import java.text.DateFormat;
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
         import java.util.List;
-        import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutionException;
+
+
+//import android.support.v4.content.LocalBroadcastManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void onReceive(Context context, Intent intent) {
 
-            Log.i("TestMessage","Rec Message form Wear in phone : "+ System.currentTimeMillis()/1000);
+//            Log.i("TestMessage","Rec Message from Wear in phone : "+ System.currentTimeMillis());
 
 //Upon receiving each message from the wearable, display the following text//
 
@@ -113,47 +117,23 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void talkClick(View v) {
 
-        Log.i("TestMessage","Send Message form phone : "+ System.currentTimeMillis()/1000);
+//        Log.i("TestMessage"," : "+ System.currentTimeMillis());
 
-
-        String message = "Sending message.... ";
-        textview.setText(message);
         int dot = 200;      // Length of a Morse Code "dot" in milliseconds
 
-        int dot1 = 300;     // Length of a Morse Code "dash" in milliseconds
-
-        int dot2 = 400;
-
-        int dot3 = 500;
-
-        int dot4 = 600;
-
-        int dot5 = 700;
-
-        int short_gap = 500;    // Length of Gap Between dots/dashes
-
-        int medium_gap = 500;   // Length of Gap Between Letters
-
-        int long_gap = 1000;    // Length of Gap Between Words
+        int short_gap = 0;    // Length of Gap Between dots/dashes
 
         long[] pattern = {
                 0,  // Start immediately
 
                 dot,
-                short_gap,
-                dot,
-                short_gap,
-                dot,
-                short_gap,
-                dot,
-                short_gap,
-                dot,
-                short_gap,
-                dot,
                 short_gap
         };
 
-            vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
+        vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
+        String message = "Sending message.... ";
+        textview.setText(message);
+
 
 
 
@@ -206,7 +186,12 @@ public class MainActivity extends AppCompatActivity {
 //Block on a task and get the result synchronously//
 
                         Integer result = Tasks.await(sendMessageTask);
+                        long Millis = System.currentTimeMillis();
+                        DateFormat simple = new SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z");
+                        Date result1 = new Date(Millis);
+                        Log.i("TestMessageDate","Send Message from phone Date: "+ simple.format(result1));
                         sendmessage("I just sent the wearable a message " + sentMessageNumber++);
+
 
                         //if the Task fails, then…..//
 
